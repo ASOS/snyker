@@ -1,0 +1,56 @@
+{
+  "name": "snyker",
+  "version": "3.4.0",
+  "description": "An opinionated, heavy-handed wrapper around Snyk.",
+  "main": "lib/index.js",
+  "bin": "bin/snyker",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asos/snyker.git"
+  },
+  "keywords": [
+    "snyk",
+    "security",
+    "vulnerabilities"
+  ],
+  "author": "Craig Morten <craig.morten@asos.com>",
+  "bugs": {
+    "url": "https://github.com/asos/snyker/issues"
+  },
+  "homepage": "https://github.com/asos/snyker#README",
+  "scripts": {
+    "build": "cross-env BABEL_ENV=node rollup -c server.rollup.js",
+    "ci": "yarn clean && yarn lint && yarn build && yarn snyker && yarn snyker:npm",
+    "clean": "yarn clean:lib && yarn clean:lock",
+    "clean:lib": "rimraf lib",
+    "clean:lock": "rimraf package-lock.json",
+    "lint": "eslint ./src",
+    "snyker": "bin/snyker",
+    "snyker:npm": "bin/snyker --lockfile=package-lock.json && yarn clean:lock",
+    "prepublishOnly": "yarn ci"
+  },
+  "dependencies": {
+    "@yarnpkg/lockfile": "^1.1.0",
+    "js-yaml": "^3.14.0",
+    "snyk": "^1.520.0",
+    "yargs": "^15.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^7.16.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jest": "^23.8.2",
+    "eslint-plugin-prettier": "^3.1.3",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.6.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^6.0.0"
+  }
+}
