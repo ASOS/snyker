@@ -1,6 +1,6 @@
 {
   "name": "@asos/snyker",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "An opinionated, heavy-handed wrapper around Snyk.",
   "author": {
     "name": "Craig Morten",

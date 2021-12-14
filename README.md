@@ -24,13 +24,13 @@ An opinionated CLI wrapper around <a href="https://snyk.io/">Snyk</a> for purgin
 
 ```bash
 # Start fixing vulnerabilities straight away using NPX
-npx snyker
+npx @asos/snyker
 
 # Add to your global NPM packages
-npm i -g snyker
+npm i -g @asos/snyker
 
 # Or to your global Yarn packages
-yarn global add snyker
+yarn global add @asos/snyker
 ```
 
 ## About
