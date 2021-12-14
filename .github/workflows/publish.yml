@@ -1,21 +1,22 @@
-name: Test
+name: Publish
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  release:
+    types: [created]
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: 16
+          registry-url: https://registry.npmjs.org/
+          always-auth: true
       - run: yarn install --frozen-lockfile
-      - run: yarn ci
+      - run: yarn publish --access public
         env:
           SNYK_TOKEN: ${{secrets.SNYK_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.NODE_AUTH_TOKEN}}
           CI: true

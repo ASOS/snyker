@@ -1,5 +1,10 @@
 # ChangeLog
 
+## [4.0.0] - 14-12-2021
+
+- feat: upgrade dependencies to latest versions
+- feat: move package to `@asos` scope
+
 ## [3.4.0] - 13-05-2021
 
 - feat: snyk authentication errors are now captured and logged specifically

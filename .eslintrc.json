@@ -1,16 +1,14 @@
 {
   "env": {
     "es6": true,
-    "node": true,
-    "jest": true
+    "node": true
   },
   "extends": [
     "eslint:recommended",
     "plugin:import/recommended",
-    "plugin:jest/recommended",
     "prettier"
   ],
-  "plugins": ["import", "jest", "prettier"],
+  "plugins": ["import", "prettier"],
   "rules": {
     "import/no-extraneous-dependencies": "error",
     "no-underscore-dangle": "error",
@@ -25,7 +23,6 @@
     "complexity": "off",
     "import/unambiguous": "off",
     "prefer-const": "error",
-    "no-var": "error",
-    "jest/no-identical-title": "warn"
+    "no-var": "error"
   }
 }
