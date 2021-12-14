@@ -1,5 +1,9 @@
 # ChangeLog
 
+## [4.0.1] - 14-12-2021
+
+- docs: fix readme instructions to use `@asos` scope
+
 ## [4.0.0] - 14-12-2021
 
 - feat: upgrade dependencies to latest versions
