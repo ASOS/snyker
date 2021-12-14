@@ -1,20 +1,12 @@
 # Contributing to this repository
 
-First of all, thanks for taking the time to read this document and contributing to our codebase.
-
-Please read each section carefully!
+First of all, thanks for taking the time to read this document and contributing to our codebase! 🎉 🍻
 
 ## Getting started
 
-The first thing to do before starting to work on your feature would be to have a conversation with the codeowners about it, we may have some pointers or examples that might make your life much easier!
+If you're working on an existing issue then awesome! Let us know by dropping a comment in the issue.
 
-The other thing you will need before you start is to create an issue describing what it is that you're set to do, or if its a bug make sure there are clear reproduction steps on the description.
-
-Things to talk about in our first conversation:
-
-- Planned implementation
-- Test plan
-- Q&A
+If it's a new bug fix or feature that you would like to contribute, then please raise an issue so it can be tracked (and to help out others who are experiencing the same issue / want the new thing know that it's being looked at!). Be sure to check for existing issues before raising your own!
 
 ## Working on your feature
 
@@ -22,28 +14,19 @@ Things to talk about in our first conversation:
 
 On this project we follow mainline development (or trunk based development), and our default branch is `main`.
 
-Therefore you need to branch from `main` and merge into `main`.
-
-We use the following convention for branch names `feature/short-description`, where short description is to have an idea what the branch is about and the `feature` part is for features, but it can vary on other kinds of issues.
-
-Here are some examples:
-
-- `feature/new-icon`, a new feature.
-- `fix/windows-bug`, a bug fix
-- `chore/upgrade-eslint`, a chore is something that doesn't add functionality to the user but needs to be done.
+Therefore you need to branch / fork from `main` and merge into `main`.
 
 ### Coding style
 
 Generally try to match the style and conventions of the code around your changes. Ultimately we want code that is clear, concise, consistent and easy to read.
 
-Broadly we're in-tune with the following style guides:
+You can format the code with:
 
-- JavaScript
-  - <https://github.com/prettier/prettier>
-  - <https://github.com/airbnb/javascript>
-  - <https://github.com/ryanmcdermott/clean-code-javascript>
+```console
+yarn lint
+```
 
-### Unit tests
+### Tests
 
 Before opening a PR, please run the following command to make sure your branch will build and pass all the tests:
 
@@ -55,8 +38,8 @@ yarn ci
 
 Once you're confident your branch is ready to review, open a PR against `main` on this repo.
 
-Please make sure you fill the PR template correctly.
+Please use the PR template as a guide, but if your change doesn't quite fit it, feel free to customize! 🙃
 
 ## Merging and publishing
 
-When your feature branch/PR has been tested and has an approval, it is then ready to merge. Please contact the maintainer to action the merge.
+When your feature branch / PR has been tested and has an approval, it is then ready to merge. Please contact the maintainer to action the merge.
