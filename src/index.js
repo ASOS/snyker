@@ -270,10 +270,6 @@ const snyker = async () => {
 
   const lockFileName = argv.lockfile || "yarn.lock";
   const isYarn = lockFileName.includes("yarn");
-  const snykCliPath = path.join(
-    path.dirname(module.id),
-    "../node_modules/.bin/snyk"
-  );
 
   console.log(
     `[SNYKER: STEP 1]: Ensuring lockfile '${lockFileName}' is up to date.\n`
@@ -307,7 +303,8 @@ const snyker = async () => {
   console.log("[SNYKER: STEP 3]: Getting vulnerable paths from Snyk.");
 
   const depsToForceUpdate = await catchAndRetry(async () => {
-    const { stdout: snykTestOut } = await exec(snykCliPath, [
+    const { stdout: snykTestOut } = await exec("npx", [
+      "snyk",
       "test",
       "--dev",
       "--json",
@@ -347,7 +344,8 @@ const snyker = async () => {
   );
 
   const finalVulnerabilities = await catchAndRetry(async () => {
-    const { stdout: finalSnykTestOut } = await exec(snykCliPath, [
+    const { stdout: finalSnykTestOut } = await exec("npx", [
+      "snyk",
       "test",
       "--dev",
       "--json",
@@ -405,7 +403,7 @@ const snyker = async () => {
     console.log();
 
     for (const id of uniqueVulnerabilityIds) {
-      await exec(snykCliPath, ["ignore", `--id=${id}`]);
+      await exec("npx", ["snyk", "ignore", `--id=${id}`]);
     }
 
     if (upgradablePackages.length) {

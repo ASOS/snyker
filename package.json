@@ -1,6 +1,6 @@
 {
   "name": "@asos/snyker",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "An opinionated, heavy-handed wrapper around Snyk.",
   "author": {
     "name": "Craig Morten",
@@ -23,6 +23,9 @@
   "directories": {
     "doc": "docs",
     "lib": "lib"
+  },
+  "engines": {
+    "npm": ">=5.2.0"
   },
   "main": "lib/index.js",
   "bin": {
