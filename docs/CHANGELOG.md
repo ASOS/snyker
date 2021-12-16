@@ -1,5 +1,9 @@
 # ChangeLog
 
+## [4.0.2] - 16-12-2021
+
+- fix: don't rely on hardcoded paths to `snyk` binary
+
 ## [4.0.1] - 14-12-2021
 
 - docs: fix readme instructions to use `@asos` scope
