@@ -24,6 +24,10 @@
     "doc": "docs",
     "lib": "lib"
   },
+  "engines": {
+    "node": ">=12",
+    "npm": ">=5.2.0"
+  },
   "main": "lib/index.js",
   "bin": {
     "snyker": "bin/snyker"
