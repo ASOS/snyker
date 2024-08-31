@@ -81,4 +81,4 @@ Please check out the [CHANGELOG](./docs/CHANGELOG.md) docs.
 
 ## License
 
-Snyker is licensed under the [MIT License](./LICENSE.md).
+Snyker is licensed under the [MIT License](./LICENSE).
