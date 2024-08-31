@@ -1,5 +1,10 @@
 # ChangeLog
 
+## [5.0.0] - 31-08-2024
+
+- feat: upgrade dependencies to latest versions
+- feat: bump to Node 20 and NPM >=9
+
 ## [4.0.2] - 16-12-2021
 
 - fix: don't rely on hardcoded paths to `snyk` binary

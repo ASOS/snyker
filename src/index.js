@@ -57,7 +57,7 @@ const toVersionless = (str) => str.replace(/(.*)\@.*/, "$1");
 
 const toDependencies = (
   currentDependencies,
-  { from: [_, ...dependencies] }
+  { from: [_, ...dependencies] },
 ) => [...currentDependencies, ...dependencies.map(toVersionless)];
 
 const unique = (arr) => Array.from(new Set([...arr]));
@@ -73,7 +73,7 @@ const yarnInstall = async ({ force = false } = { force: false }) =>
     ],
     {
       stdio: "inherit",
-    }
+    },
   );
 
 const npmInstall = async ({ force = false } = { force: false }) =>
@@ -90,7 +90,7 @@ const npmInstall = async ({ force = false } = { force: false }) =>
  */
 const updateYarnLock = async ({ lockFileName, depsToForceUpdate }) => {
   console.log(
-    `[SNYKER: STEP 4]: Deleting vulnerable paths from '${lockFileName}' file.`
+    `[SNYKER: STEP 4]: Deleting vulnerable paths from '${lockFileName}' file.`,
   );
 
   const yarnLock = fs.readFileSync(lockFileName, "utf8");
@@ -101,13 +101,13 @@ const updateYarnLock = async ({ lockFileName, depsToForceUpdate }) => {
       depsToForceUpdate.includes(toVersionless(dependencyName))
         ? currentJson
         : { ...currentJson, [dependencyName]: dependencyMetadata },
-    {}
+    {},
   );
 
   fs.writeFileSync(lockFileName, stringify(updatedYarnLock));
 
   console.log(
-    "[SNYKER: STEP 5]: Running 'yarn install --force' to force sub-dependency updates.\n"
+    "[SNYKER: STEP 5]: Running 'yarn install --force' to force sub-dependency updates.\n",
   );
 
   const out = await yarnInstall({ force: true });
@@ -121,20 +121,9 @@ const updateYarnLock = async ({ lockFileName, depsToForceUpdate }) => {
  * In order to avoid the ~2018 EINTEGRITY error nightmare, we also force all deps
  * installed prior to npm 5.0 to be updated.
  */
-const shaPatch = ({ integrity, dependencies, ...rest }) => ({
+const shaPatch = ({ integrity, ...rest }) => ({
   ...rest,
   ...(!integrity || integrity.startsWith("sha1-") ? {} : { integrity }),
-  ...(dependencies
-    ? {
-        dependencies: Object.entries(dependencies).reduce(
-          (currentDependencies, [dependencyName, dependency]) => ({
-            ...currentDependencies,
-            [dependencyName]: shaPatch(dependency),
-          }),
-          {}
-        ),
-      }
-    : {}),
 });
 
 /**
@@ -146,7 +135,7 @@ const shaPatch = ({ integrity, dependencies, ...rest }) => ({
  */
 const updatePackageLock = async ({ lockFileName, depsToForceUpdate }) => {
   console.log(
-    `[SNYKER: STEP 4]: Deleting vulnerable paths from '${lockFileName}' file.`
+    `[SNYKER: STEP 4]: Deleting vulnerable paths from '${lockFileName}' file.`,
   );
 
   const packageLock = fs.readFileSync(lockFileName, "utf8");
@@ -154,22 +143,22 @@ const updatePackageLock = async ({ lockFileName, depsToForceUpdate }) => {
 
   const updatedPackageLock = {
     ...object,
-    dependencies: Object.entries(object.dependencies).reduce(
+    packages: Object.entries(object.packages).reduce(
       (currentJson, [dependencyName, dependencyMetadata]) =>
         depsToForceUpdate.includes(toVersionless(dependencyName))
           ? currentJson
           : { ...currentJson, [dependencyName]: shaPatch(dependencyMetadata) },
-      {}
+      {},
     ),
   };
 
   fs.writeFileSync(
     lockFileName,
-    JSON.stringify(updatedPackageLock, undefined, 2)
+    JSON.stringify(updatedPackageLock, undefined, 2),
   );
 
   console.log(
-    "[SNYKER: STEP 5]: Running 'npm install' to force sub-dependency updates.\n"
+    "[SNYKER: STEP 5]: Running 'npm install' to force sub-dependency updates.\n",
   );
 
   const out = await npmInstall({ force: true });
@@ -200,7 +189,7 @@ const updateSnykPolicyPatches = (patchablePackages) => {
           },
         ],
       }),
-      {}
+      {},
     ),
   };
 
@@ -227,7 +216,7 @@ const updateSnykPolicyWithPersistedVulnerabilityData = (originalPolicy) => {
 
         if (originalVulnerablePaths.length && originalVulnerablePaths[0]["*"]) {
           originalMetadata = Object.entries(
-            originalVulnerablePaths[0]["*"]
+            originalVulnerablePaths[0]["*"],
           ).reduce((metadata, [key, value]) => {
             if (dynamicPolicyKeys.includes(key)) {
               return metadata;
@@ -252,7 +241,7 @@ const updateSnykPolicyWithPersistedVulnerabilityData = (originalPolicy) => {
           ],
         };
       },
-      {}
+      {},
     ),
   };
 
@@ -272,7 +261,7 @@ const snyker = async () => {
   const isYarn = lockFileName.includes("yarn");
 
   console.log(
-    `[SNYKER: STEP 1]: Ensuring lockfile '${lockFileName}' is up to date.\n`
+    `[SNYKER: STEP 1]: Ensuring lockfile '${lockFileName}' is up to date.\n`,
   );
 
   await catchAndRetry(async () => {
@@ -316,7 +305,7 @@ const snyker = async () => {
 
     if (snykAuthCheck(snykTestOut)) {
       console.log(
-        "\nMissingApiTokenError: `snyk` requires an authenticated account. Please run `snyk auth` and try again.\n\nRestoring Original Snyk Policy."
+        "\nMissingApiTokenError: `snyk` requires an authenticated account. Please run `snyk auth` and try again.\n\nRestoring Original Snyk Policy.",
       );
       fs.writeFileSync(".snyk", yaml.dump(originalPolicy));
       process.exit(1);
@@ -336,11 +325,11 @@ const snyker = async () => {
       await (isYarn ? updateYarnLock : updatePackageLock)({
         lockFileName,
         depsToForceUpdate,
-      })
+      }),
   );
 
   console.log(
-    "\n[SNYKER: STEP 6]: Getting remaining vulnerable paths from Snyk."
+    "\n[SNYKER: STEP 6]: Getting remaining vulnerable paths from Snyk.",
   );
 
   const finalVulnerabilities = await catchAndRetry(async () => {
@@ -357,7 +346,7 @@ const snyker = async () => {
 
     if (snykAuthCheck(finalSnykTestOut)) {
       console.log(
-        "\nMissingApiTokenError: `snyk` requires an authenticated account. Please run `snyk auth` and try again.\n\nRestoring Original Snyk Policy."
+        "\nMissingApiTokenError: `snyk` requires an authenticated account. Please run `snyk auth` and try again.\n\nRestoring Original Snyk Policy.",
       );
       fs.writeFileSync(".snyk", yaml.dump(originalPolicy));
       process.exit(1);
@@ -410,11 +399,11 @@ const snyker = async () => {
       const installCommand = isYarn ? "yarn upgrade" : "npm install";
       const upgradablePackagesStr = unique(upgradablePackages).reduce(
         (str, upgradablePackage) => `${str} ${upgradablePackage}`,
-        ""
+        "",
       );
 
       console.log(
-        `[SNYKER: RECOMMENDATION]: ${installCommand}${upgradablePackagesStr}`
+        `[SNYKER: RECOMMENDATION]: ${installCommand}${upgradablePackagesStr}`,
       );
     }
 
@@ -422,7 +411,7 @@ const snyker = async () => {
       console.log("[SNYKER: STEP 8]: Applying available patches:\n");
 
       unique(patchablePackages.map(({ id }) => id)).forEach((id) =>
-        console.log(`\t- ${id}`)
+        console.log(`\t- ${id}`),
       );
       // Intentional newline
       console.log();
