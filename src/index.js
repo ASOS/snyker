@@ -168,6 +168,44 @@ const updatePackageLock = async ({ lockFileName, depsToForceUpdate }) => {
   }
 };
 
+const created = new Date();
+created.setUTCHours(0, 0, 0, 0);
+
+const updateSnykPolicyWithIgnores = (vulnerabilityIds) => {
+  const snykPolicyFile = fs.existsSync(".snyk")
+    ? fs.readFileSync(".snyk", "utf8")
+    : "ignore: {}\npatch: {}";
+
+  const policy = yaml.load(snykPolicyFile);
+
+  const updatedPolicy = {
+    ...policy,
+    ignore: {
+      ...policy.ignore,
+      ...Object.fromEntries(
+        vulnerabilityIds.map((vulnerabilityId) => [
+          vulnerabilityId,
+          [
+            {
+              "*": {
+                // REF: https://github.com/snyk/cli/blob/main/src/cli/commands/ignore.ts#L59
+                reason: "None Given",
+                // REF: https://github.com/snyk/cli/blob/main/src/cli/commands/ignore.ts#L55
+                expires: new Date(created + 30 * 24 * 60 * 60 * 1000),
+                // REF: https://github.com/snyk/cli/blob/main/src/cli/commands/ignore.ts#L80
+                created,
+              },
+            },
+          ],
+        ]),
+      ),
+    },
+  };
+
+  const updatedPolicyFile = yaml.dump(updatedPolicy);
+  fs.writeFileSync(".snyk", updatedPolicyFile);
+};
+
 const updateSnykPolicyPatches = (patchablePackages) => {
   const snykPolicyFile = fs.existsSync(".snyk")
     ? fs.readFileSync(".snyk", "utf8")
@@ -388,12 +426,11 @@ const snyker = async () => {
 
     const uniqueVulnerabilityIds = unique(vulnerabilityIds);
     uniqueVulnerabilityIds.forEach((id) => console.log(`\t- ${id}`));
+
+    updateSnykPolicyWithIgnores(uniqueVulnerabilityIds);
+
     // Intentional newline
     console.log();
-
-    for (const id of uniqueVulnerabilityIds) {
-      await exec("npx", ["snyk", "ignore", `--id=${id}`]);
-    }
 
     if (upgradablePackages.length) {
       const installCommand = isYarn ? "yarn upgrade" : "npm install";
@@ -413,6 +450,7 @@ const snyker = async () => {
       unique(patchablePackages.map(({ id }) => id)).forEach((id) =>
         console.log(`\t- ${id}`),
       );
+
       // Intentional newline
       console.log();
       updateSnykPolicyPatches(patchablePackages);
