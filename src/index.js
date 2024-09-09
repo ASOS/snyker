@@ -304,7 +304,7 @@ const snyker = async () => {
   );
 
   await catchAndRetry(async () => {
-    const out = await (isYarn ? yarnInstall : npmInstall)();
+    const out = await (isYarn ? yarnInstall : npmInstall)({ force: true });
 
     if (out.code !== 0) {
       throw out;

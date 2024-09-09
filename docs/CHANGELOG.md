@@ -6,6 +6,7 @@
 - feat: bump to Node 20 and NPM >=9
 - fix: correctly handle ignores even if limited to administrators
 - chore: eslint v9 upgrade
+- fix: need to force install to workaround incorrect peer deps on npm
 
 ## [4.0.2] - 16-12-2021
 
