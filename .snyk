@@ -2,6 +2,6 @@ ignore:
   SNYK-JS-INFLIGHT-6095116:
     - '*':
         reason: None Given
-        expires: 2024-09-01T00:00:00.000Z
+        expires: 2024-10-09T00:00:00.000Z
         created: 2024-09-01T00:00:00.000Z
 patch: {}

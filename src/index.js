@@ -177,6 +177,7 @@ const updateSnykPolicyWithIgnores = (vulnerabilityIds) => {
     : "ignore: {}\npatch: {}";
 
   const policy = yaml.load(snykPolicyFile);
+  const expires = new Date(created.getTime() + 30 * 24 * 60 * 60 * 1000);
 
   const updatedPolicy = {
     ...policy,
@@ -191,7 +192,7 @@ const updateSnykPolicyWithIgnores = (vulnerabilityIds) => {
                 // REF: https://github.com/snyk/cli/blob/main/src/cli/commands/ignore.ts#L59
                 reason: "None Given",
                 // REF: https://github.com/snyk/cli/blob/main/src/cli/commands/ignore.ts#L55
-                expires: new Date(created + 30 * 24 * 60 * 60 * 1000),
+                expires,
                 // REF: https://github.com/snyk/cli/blob/main/src/cli/commands/ignore.ts#L80
                 created,
               },
