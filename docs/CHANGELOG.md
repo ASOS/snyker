@@ -1,5 +1,11 @@
 # ChangeLog
 
+## [5.1.0] - 27-11-2024
+
+- feat: removed need for `--lockfile` flag if a `yarn.lock` or `package-lock.json` exists. Defaults to `yarn.lock` if not found. You can still specify a lockfile if you wish.
+- bug: added `--preserve-integrity` flag to prevent removal of integrity hash when `sha1` is used due to private repositories such as Azure Artifacts not supporting anything other than `sha1`.
+- chore: updated eslint-plugin-import to ^2.31.0 for eslint 9 support
+
 ## [5.0.0] - 31-08-2024
 
 - feat: upgrade dependencies to latest versions
