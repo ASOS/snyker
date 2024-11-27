@@ -7,6 +7,8 @@
 - fix: correctly handle ignores even if limited to administrators
 - chore: eslint v9 upgrade
 - fix: need to force install to workaround incorrect peer deps on npm
+- feat: removed need for `--lockfile` flag if a `yarn.lock` or `package-lock.json` exists. Defaults to `yarn.lock` if not found. You can still specify a lockfile if you wish.
+- feat: added `--preserve-integrity` flag to prevent removal of integrity hash when `sha1` is used due to private repositories such as Azure Artifacts not supporting anything other than `sha1`.
 
 ## [4.0.2] - 16-12-2021
 
