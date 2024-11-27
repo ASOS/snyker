@@ -1,6 +1,6 @@
 {
   "name": "@asos/snyker",
-  "version": "4.0.2",
+  "version": "5.0.0",
   "description": "An opinionated, heavy-handed wrapper around Snyk.",
   "author": {
     "name": "Craig Morten",
@@ -25,19 +25,19 @@
     "lib": "lib"
   },
   "engines": {
-    "npm": ">=5.2.0"
+    "npm": ">=9.0.0"
   },
   "main": "lib/index.js",
   "bin": {
     "snyker": "bin/snyker"
   },
   "scripts": {
-    "build": "cross-env BABEL_ENV=node rollup -c server.rollup.js",
+    "build": "cross-env BABEL_ENV=node rollup -c server.rollup.js --bundleConfigAsCjs",
     "ci": "yarn clean && yarn lint && yarn build && yarn snyker && yarn snyker:npm",
     "clean": "yarn clean:lib && yarn clean:lock",
     "clean:lib": "rimraf lib",
     "clean:lock": "rimraf package-lock.json",
-    "lint": "eslint ./src",
+    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint ./src",
     "lint:fix": "yarn lint --fix",
     "snyker": "bin/snyker",
     "snyker:npm": "bin/snyker --lockfile=package-lock.json && yarn clean:lock",
@@ -51,18 +51,18 @@
   },
   "devDependencies": {
     "@babel/core": "^7.16.5",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
     "cross-env": "^7.0.3",
-    "eslint": "^8.4.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-prettier": "^4.0.0",
-    "prettier": "^2.5.1",
-    "rimraf": "^3.0.2",
-    "rollup": "^2.61.1",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-json": "^4.0.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-terser": "^7.0.2"
+    "eslint": "^9.10.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.21.2"
   }
 }
