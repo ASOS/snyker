@@ -304,11 +304,11 @@ const snyker = async () => {
   // Prioritise "lockfile" flag, then check for yarn.lock, then package-lock.json
   // If none of these files exist, default to yarn.lock
   const lockFileName =
-    argv.lockfile || fs.existsSync(path.join(process.cwd(), "yarn.lock"))
-      ? "yarn.lock"
-      : fs.existsSync(path.join(process.cwd(), "package-lock.json"))
-        ? "package-lock.json"
-        : "yarn.lock";
+    argv.lockfile ||
+    ["yarn.lock", "package-lock.json"].find((file) =>
+      fs.existsSync(path.join(process.cwd(), file)),
+    ) ||
+    "yarn.lock";
 
   const isYarn = lockFileName.includes("yarn");
 
