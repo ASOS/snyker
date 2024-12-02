@@ -310,7 +310,7 @@ const snyker = async () => {
     ) ||
     "yarn.lock";
 
-  const isYarn = lockFileName.includes("yarn");
+  const isYarn = lockFileName === "yarn.lock";
 
   console.log(
     `[SNYKER: STEP 1]: Ensuring lockfile '${lockFileName}' is up to date.\n`,
