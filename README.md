@@ -52,13 +52,16 @@ It is recommended that you use this tool alongside the official Snyk CLI, not re
 ### Options
 
 ```console
-snyker --retries 3 --lockfile package-lock.json
+snyker --retries 3 --lockfile package-lock.json --preserve-integrity
 ```
 
-| Flag                  | Description                                                            | Default     |
-| --------------------- | ---------------------------------------------------------------------- | ----------- |
-| `--lockfile <string>` | Specify the lockfile to use (e.g. `yarn.lock` or `package-lock.json`). | `yarn.lock` |
-| `--retries <int>`     | Will set the number of times to retry logical steps of Snyker.         | `2`         |
+| Flag                   | Description                                                              | Default     |
+| ---------------------- | -------------------------------------------------------------------------| ----------- |
+| `--lockfile <string>`  | Specify the lockfile to use (e.g. `yarn.lock` or `package-lock.json`).   | Attempts to find a `yarn.lock` or `package-lock.json` then defaults to `yarn.lock` |
+| `--retries <int>`      | Will set the number of times to retry logical steps of Snyker.           | `2`         |
+| `--preserve-integrity` | Will not attempt to update integrity hash when `sha1` is used. \*        | `false`     |
+
+> \* It is highly recommended to use `sha512` for the integrity hash algorithm which is default for `npm`. However, when using private repositories such as Azure Artifacts, they do not support anything other than `sha1`. In turn, if the integrity is removed, the subsequent `npm install` command does not re-instate these. This flag is a workaround for this issue.
 
 ## Alternatives
 

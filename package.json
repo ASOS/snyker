@@ -1,6 +1,6 @@
 {
   "name": "@asos/snyker",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "description": "An opinionated, heavy-handed wrapper around Snyk.",
   "author": {
     "name": "Craig Morten",
@@ -59,7 +59,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^9.10.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.1",
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
