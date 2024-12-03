@@ -10,6 +10,7 @@ const LARGE_BUFFER = 1024 * 1024 * 1024 * 20;
 const DEFAULT_RETRIES = 2;
 
 let MAX_RETRIES;
+let PRESERVE_INTEGRITY = false;
 
 const catchAndRetry = async (fn) => {
   for (let retries = 0; retries < MAX_RETRIES; retries++) {
@@ -123,7 +124,9 @@ const updateYarnLock = async ({ lockFileName, depsToForceUpdate }) => {
  */
 const shaPatch = ({ integrity, ...rest }) => ({
   ...rest,
-  ...(!integrity || integrity.startsWith("sha1-") ? {} : { integrity }),
+  ...(!integrity || (integrity.startsWith("sha1-") && !PRESERVE_INTEGRITY)
+    ? {}
+    : { integrity }),
 });
 
 /**
@@ -295,9 +298,19 @@ const snyker = async () => {
   console.log("[SNYKER: STARTING]");
 
   MAX_RETRIES = argv.retries || DEFAULT_RETRIES;
+  PRESERVE_INTEGRITY = argv["preserve-integrity"] || false;
 
-  const lockFileName = argv.lockfile || "yarn.lock";
-  const isYarn = lockFileName.includes("yarn");
+  // We need to determine whether we're using Yarn or NPM
+  // Prioritise "lockfile" flag, then check for yarn.lock, then package-lock.json
+  // If none of these files exist, default to yarn.lock
+  const lockFileName =
+    argv.lockfile ||
+    ["yarn.lock", "package-lock.json"].find((file) =>
+      fs.existsSync(path.join(process.cwd(), file)),
+    ) ||
+    "yarn.lock";
+
+  const isYarn = lockFileName === "yarn.lock";
 
   console.log(
     `[SNYKER: STEP 1]: Ensuring lockfile '${lockFileName}' is up to date.\n`,
